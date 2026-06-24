@@ -8,6 +8,13 @@
     color: #1f2227;
 }
 
+.service_icon{
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    background: none !important;
+}
+
 .services_list .service{
     cursor: pointer;
 }
