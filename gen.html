@@ -226,7 +226,7 @@
         <div class="gen-card">
             <div class="gen-card-title">Zdjęcie</div>
             <div class="gen-photo-area">
-                <label class="gen-photo-label" for="gen-photo">📷 Wybierz zdjęcie</label>
+                <label class="gen-photo-label" for="gen-photo">Wybierz zdjęcie</label>
                 <input type="file" id="gen-photo" accept="image/*">
                 <div class="gen-photo-preview" id="gen-photo-preview">
                     <img id="gen-photo-img">
@@ -303,7 +303,7 @@
                 </div>
                 <div class="gen-field">
                     <label>Numer dowodu</label>
-                    <input type="text" id="gen-id-number" readonly>
+                    <input type="text" id="gen-id-number">
                 </div>
             </div>
             <div class="gen-row">
@@ -437,7 +437,7 @@
                 photo: localStorage.getItem('gen_photo') || ''
             };
             localStorage.setItem('gen_user_data', JSON.stringify(data));
-            showToast('Dane zapisane! Otwórz mDowód.', '✅');
+            showToast('Dane zapisane! Otwórz mDowód.');
         }
 
         function loadSavedGeneratorData() {
