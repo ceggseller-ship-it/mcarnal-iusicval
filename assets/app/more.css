@@ -37,8 +37,16 @@
         width: 25px;
         margin-top: 20px;
         margin-bottom: 20px;
+        filter: grayscale(100%) brightness(0.5) opacity(0.65);
     }
 }
+.service_icon{
+    width: 30px;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    filter: grayscale(100%) brightness(0.5) opacity(0.65);
+}
+
 .service{
     grid-template-columns: 8% 77% 15%;
 }
