@@ -207,13 +207,23 @@
             font-size: 40px;
             margin-bottom: 12px;
         }
+
+        /* Confirm popup */
+        .gen-confirm-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 9998; display: none; align-items: center; justify-content: center; }
+        .gen-confirm-overlay.show { display: flex; }
+        .gen-confirm-box { background: white; border-radius: 20px; padding: 28px 24px; width: 80%; max-width: 300px; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.2); }
+        .gen-confirm-title { font-size: 17px; font-weight: 600; color: #1f2227; margin-bottom: 8px; }
+        .gen-confirm-desc { font-size: 14px; color: #6b7280; margin-bottom: 24px; line-height: 1.4; }
+        .gen-confirm-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .gen-confirm-cancel { padding: 12px; background: #f3f4f6; color: #1f2227; border: none; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer; }
+        .gen-confirm-confirm { padding: 12px; background: #dc2626; color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer; }
     </style>
 </head>
 <body>
     <div id="app-preloader" class="app-preloader" aria-busy="true" aria-live="polite"><div class="app-preloader__spinner" aria-hidden="true"></div></div>
 
     <div class="gen-header">
-        <div class="gen-back" onclick="goBack('more.html')">
+        <div class="gen-back" onclick="showConfirm('Czy na pewno chcesz wyjść?', 'Nie zapisane dane zostaną utracone.', function() { goBack('more.html'); })"></div>
             <img src="assets/app/images/back_blue.svg">
             <span>Wróć</span>
         </div>
@@ -356,7 +366,7 @@
             </div>
         </div>
 
-        <button class="gen-save-btn" onclick="saveGeneratorData()">💾 Zapisz i zastosuj w mDowodzie</button>
+        <button class="gen-save-btn" onclick="saveGeneratorData()">Zapisz i zastosuj w mDowodzie</button>
         <div style="height:40px;"></div>
     </div>
 
@@ -371,6 +381,18 @@
         <div id="gen-toast-msg">Dane zapisane!</div>
     </div>
 
+    <!-- Confirm popup -->
+    <div class="gen-confirm-overlay" id="gen-confirm">
+        <div class="gen-confirm-box">
+            <div class="gen-confirm-title" id="gen-confirm-title">Czy na pewno chcesz wyjść?</div>
+            <div class="gen-confirm-desc" id="gen-confirm-desc">Nie zapisane dane zostaną utracone.</div>
+            <div class="gen-confirm-btns">
+                <button class="gen-confirm-cancel" onclick="closeConfirm()">Anuluj</button>
+                <button class="gen-confirm-confirm" id="gen-confirm-btn">Wyjdź</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         function pad(n) { return n < 10 ? '0' + n : '' + n; }
 
@@ -380,6 +402,23 @@
             if (icon) t.querySelector('.gen-toast-icon').textContent = icon;
             t.classList.add('show');
             setTimeout(function() { t.classList.remove('show'); }, 2500);
+        }
+
+        function showConfirm(title, desc, onConfirm) {
+            document.getElementById('gen-confirm-title').textContent = title;
+            document.getElementById('gen-confirm-desc').textContent = desc;
+            document.getElementById('gen-confirm').classList.add('show');
+            var btn = document.getElementById('gen-confirm-btn');
+            var newBtn = btn.cloneNode(true);
+            btn.parentNode.replaceChild(newBtn, btn);
+            newBtn.addEventListener('click', function() {
+                closeConfirm();
+                if (onConfirm) onConfirm();
+            });
+        }
+
+        function closeConfirm() {
+            document.getElementById('gen-confirm').classList.remove('show');
         }
 
         function generatePeselFromDate() {
