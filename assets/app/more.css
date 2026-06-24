@@ -9,10 +9,6 @@
 }
 
 .settings{
-    margin-top: 160px !important;
-}
-
-.settings{
     margin-top: 120px;
 }
 
@@ -20,23 +16,35 @@
     margin-top: 130px;
 }
 
+@media only screen and (max-width: 900px) {
+    .settings {
+        margin-top: 80px !important;
+    }
+    
+    .container {
+        margin-top: 80px;
+    }
+    
+    .title {
+        font-size: 17px;
+    }
+    
+    .service_name {
+        font-size: 20px;
+    }
+    
+    .service_icon {
+        width: 25px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        filter: grayscale(100%) brightness(0.5) opacity(0.65);
+    }
+}
 .service_icon{
     width: 30px;
     margin-top: 25px;
     margin-bottom: 25px;
-    filter: grayscale(100%) brightness(0) opacity(0.65);
-}
-
-.service_name{
-    color: #000000 !important;
-}
-
-.services_list .service{
-    cursor: pointer;
-}
-
-.arrow{
-    filter: brightness(0) opacity(0.65);
+    filter: grayscale(100%) brightness(0.5) opacity(0.65);
 }
 
 .service{

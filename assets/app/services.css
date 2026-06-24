@@ -1,4 +1,3 @@
-
 .title{
     font-weight: 600;
     font-size: 19px;
@@ -9,6 +8,7 @@
 }
 
 .service_icon{
+    width: 30px;
     border: none !important;
     outline: none !important;
     box-shadow: none !important;

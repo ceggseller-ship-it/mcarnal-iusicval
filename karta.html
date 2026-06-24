@@ -7,6 +7,12 @@
     <link rel="stylesheet" href="assets/app/preloader.css">
     <link rel="stylesheet" href="assets/app/main.css">
     <link rel="stylesheet" href="assets/app/flow.css">
+    <link rel="manifest" href="assets/manifest.json">
+    <meta name="theme-color" content="#f5f6fb">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="mObywatel">
+    <link rel="apple-touch-icon" href="assets/app/images/logo.svg">
     <link rel="icon" type="image/x-icon" href="assets/app/images/logo.svg">
     <link rel="apple-touch-icon" href="assets/app/images/logo.svg">
     <link rel="shortcut icon" href="assets/app/images/logo.svg">
@@ -76,7 +82,7 @@
             <div id="profiles-list"></div>
         </div>
 
-        <button class="karta-btn" onclick="applyProfile()">Wczytaj wybrany profil</button>
+        <button class="karta-btn karta-btn-secondary" onclick="applyProfile()">Wczytaj wybrany profil</button>
         <button class="karta-btn karta-btn-secondary" onclick="saveCurrentAsProfile()">Zapisz obecne dane jako nowy profil</button>
         <div style="height:40px;"></div>
     </div>
@@ -123,7 +129,7 @@
                 city: 'Warszawa',
                 province: 'mazowieckie',
                 idSeries: 'MD',
-                idNumber: 'AB12345',
+                idNumber: 'AB1234',
                 father: 'Zygmunt',
                 mother: 'Halina',
                 familyName: 'NOWAK',
