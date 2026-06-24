@@ -49,9 +49,12 @@
 }
 
 .top_slide_bar .main_button{
-    top: 0;
-    right: 0;
     position: absolute;
+    top: 0;
+    right: 20px;
+    bottom: 0;
+    margin-top: auto;
+    margin-bottom: auto;
 }
 
 .top_slide_bar_open .main_button{
