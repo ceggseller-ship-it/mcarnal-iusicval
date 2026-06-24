@@ -1,0 +1,511 @@
+<head>
+    <title>mObywatel - Generator Danych</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <link rel="stylesheet" href="assets/app/preloader.css">
+    <link rel="stylesheet" href="assets/app/main.css">
+    <link rel="stylesheet" href="assets/app/flow.css">
+    <link rel="icon" type="image/x-icon" href="assets/app/images/logo.svg">
+    <link rel="apple-touch-icon" href="assets/app/images/logo.svg">
+    <link rel="shortcut icon" href="assets/app/images/logo.svg">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width, initial-scale=0.8, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <style>
+        body {
+            background: #f5f6fb;
+            margin: 0;
+            padding: 0;
+        }
+        * {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", Helvetica, ui-sans-serif, system-ui, sans-serif;
+            font-weight: 500;
+            -webkit-user-select: none;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .gen-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: #f5f6fb;
+            display: grid;
+            grid-template-columns: 25% 50% 25%;
+            align-items: center;
+            z-index: 100;
+            padding-top: 10px;
+        }
+        .gen-back {
+            display: grid;
+            grid-template-columns: max-content max-content;
+            align-items: center;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        .gen-back img {
+            width: 15px;
+        }
+        .gen-back span {
+            color: #1657e0;
+            font-size: 22px;
+            font-weight: 400;
+            margin-left: 10px;
+        }
+        .gen-title {
+            font-size: 20px;
+            color: #1f2227;
+            text-align: center;
+            font-weight: 500;
+        }
+        .gen-container {
+            width: 90%;
+            margin: 100px auto 30px auto;
+        }
+        .gen-card {
+            background: #ffffff;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.06);
+        }
+        .gen-card-title {
+            font-size: 19px;
+            font-weight: 600;
+            color: #6b7280;
+            margin-bottom: 15px;
+        }
+        .gen-field {
+            margin-bottom: 16px;
+        }
+        .gen-field label {
+            display: block;
+            font-size: 13px;
+            color: #6b7280;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        .gen-field input, .gen-field select {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #e4e6ec;
+            border-radius: 12px;
+            font-size: 16px;
+            background: #f9f9fb;
+            box-sizing: border-box;
+            outline: none;
+            font-weight: 500;
+            color: #1f2227;
+        }
+        .gen-field input:focus, .gen-field select:focus {
+            border-color: #1657e0;
+            background: #fff;
+        }
+        .gen-field input[readonly] {
+            background: #f0f0f5;
+            color: #6b7280;
+        }
+        .gen-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        .gen-photo-area {
+            text-align: center;
+            margin-bottom: 16px;
+        }
+        .gen-photo-area input[type="file"] {
+            display: none;
+        }
+        .gen-photo-label {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #e3effd;
+            color: #1657e0;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .gen-photo-preview {
+            margin-top: 12px;
+            display: none;
+        }
+        .gen-photo-preview img {
+            max-width: 120px;
+            border-radius: 12px;
+            border: 3px solid #1657e0;
+        }
+        .gen-pesel-row {
+            display: flex;
+            gap: 8px;
+        }
+        .gen-pesel-row input {
+            flex: 1;
+        }
+        .gen-pesel-row button {
+            padding: 12px 16px;
+            background: #e3effd;
+            color: #1657e0;
+            border: none;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        .gen-pesel-row button:active {
+            background: #c5d9f5;
+        }
+        .gen-save-btn {
+            width: 100%;
+            padding: 16px;
+            background: #1657e0;
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .gen-save-btn:active {
+            background: #0f45b8;
+        }
+
+        /* Custom Toast - like original mObywatel */
+        .gen-toast {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            background: rgba(0,0,0,0.75);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: white;
+            padding: 24px 32px;
+            border-radius: 16px;
+            font-size: 17px;
+            font-weight: 500;
+            text-align: center;
+            z-index: 9999;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.25s ease;
+            max-width: 80%;
+            line-height: 1.4;
+        }
+        .gen-toast.show {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+            pointer-events: auto;
+        }
+        .gen-toast-icon {
+            font-size: 40px;
+            margin-bottom: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app-preloader" class="app-preloader" aria-busy="true" aria-live="polite"><div class="app-preloader__spinner" aria-hidden="true"></div></div>
+
+    <div class="gen-header">
+        <div class="gen-back" onclick="goBack('more.html')">
+            <img src="assets/app/images/back_blue.svg">
+            <span>Wróć</span>
+        </div>
+        <div class="gen-title">Generator Danych</div>
+        <div></div>
+    </div>
+
+    <div class="gen-container">
+        <!-- Zdjęcie -->
+        <div class="gen-card">
+            <div class="gen-card-title">Zdjęcie</div>
+            <div class="gen-photo-area">
+                <label class="gen-photo-label" for="gen-photo">📷 Wybierz zdjęcie</label>
+                <input type="file" id="gen-photo" accept="image/*">
+                <div class="gen-photo-preview" id="gen-photo-preview">
+                    <img id="gen-photo-img">
+                </div>
+            </div>
+        </div>
+
+        <!-- Dane osobowe -->
+        <div class="gen-card">
+            <div class="gen-card-title">Dane osobowe</div>
+            <div class="gen-row">
+                <div class="gen-field">
+                    <label>Imię</label>
+                    <input type="text" id="gen-firstname" placeholder="Np. Jan">
+                </div>
+                <div class="gen-field">
+                    <label>Nazwisko</label>
+                    <input type="text" id="gen-lastname" placeholder="Np. Kowalski">
+                </div>
+            </div>
+            <div class="gen-row">
+                <div class="gen-field">
+                    <label>Data urodzenia</label>
+                    <input type="date" id="gen-birthday" onchange="generatePeselFromDate()">
+                </div>
+                <div class="gen-field">
+                    <label>Obywatelstwo</label>
+                    <input type="text" id="gen-nationality" value="polskie">
+                </div>
+            </div>
+            <div class="gen-field">
+                <label>PESEL (automatycznie z daty urodzenia)</label>
+                <div class="gen-pesel-row">
+                    <input type="text" id="gen-pesel" placeholder="Wygeneruj PESEL" readonly>
+                    <button onclick="generatePeselRandom()">Losuj</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Adres -->
+        <div class="gen-card">
+            <div class="gen-card-title">Adres zameldowania</div>
+            <div class="gen-field">
+                <label>Ulica</label>
+                <input type="text" id="gen-street" placeholder="Np. Mickiewicza 10/5">
+            </div>
+            <div class="gen-row">
+                <div class="gen-field">
+                    <label>Kod pocztowy</label>
+                    <input type="text" id="gen-postal" placeholder="00-000">
+                </div>
+                <div class="gen-field">
+                    <label>Miasto</label>
+                    <input type="text" id="gen-city" placeholder="Np. Warszawa">
+                </div>
+            </div>
+            <div class="gen-field">
+                <label>Województwo</label>
+                <input type="text" id="gen-province" placeholder="Np. mazowieckie">
+            </div>
+            <div class="gen-field">
+                <label>Data zameldowania</label>
+                <input type="date" id="gen-registration-date">
+            </div>
+        </div>
+
+        <!-- Dokument -->
+        <div class="gen-card">
+            <div class="gen-card-title">Dokument tożsamości</div>
+            <div class="gen-row">
+                <div class="gen-field">
+                    <label>Seria dowodu</label>
+                    <input type="text" id="gen-id-series" readonly>
+                </div>
+                <div class="gen-field">
+                    <label>Numer dowodu</label>
+                    <input type="text" id="gen-id-number" readonly>
+                </div>
+            </div>
+            <div class="gen-row">
+                <div class="gen-field">
+                    <label>Imię ojca</label>
+                    <input type="text" id="gen-father" placeholder="Np. Michał">
+                </div>
+                <div class="gen-field">
+                    <label>Imię matki</label>
+                    <input type="text" id="gen-mother" placeholder="Np. Anna">
+                </div>
+            </div>
+        </div>
+
+        <!-- Dodatkowe dane -->
+        <div class="gen-card">
+            <div class="gen-card-title">Dodatkowe dane</div>
+            <div class="gen-row">
+                <div class="gen-field">
+                    <label>Nazwisko rodowe</label>
+                    <input type="text" id="gen-family-name" placeholder="Np. NOWAK">
+                </div>
+                <div class="gen-field">
+                    <label>Płeć</label>
+                    <select id="gen-sex">
+                        <option value="Mężczyzna">Mężczyzna</option>
+                        <option value="Kobieta">Kobieta</option>
+                    </select>
+                </div>
+            </div>
+            <div class="gen-row">
+                <div class="gen-field">
+                    <label>Nazwisko rodowe ojca</label>
+                    <input type="text" id="gen-father-family" placeholder="Np. NOWAK">
+                </div>
+                <div class="gen-field">
+                    <label>Nazwisko rodowe matki</label>
+                    <input type="text" id="gen-mother-family" placeholder="Np. CHMIELOWSKA">
+                </div>
+            </div>
+            <div class="gen-row">
+                <div class="gen-field">
+                    <label>Miejsce urodzenia</label>
+                    <input type="text" id="gen-birthplace" placeholder="Np. Toruń">
+                </div>
+                <div class="gen-field">
+                    <label>Kraj urodzenia</label>
+                    <input type="text" id="gen-country" value="Polska">
+                </div>
+            </div>
+        </div>
+
+        <button class="gen-save-btn" onclick="saveGeneratorData()">💾 Zapisz i zastosuj w mDowodzie</button>
+        <div style="height:40px;"></div>
+    </div>
+
+    <!-- Custom Toast -->
+    <div class="gen-toast" id="gen-toast">
+        <div class="gen-toast-icon">
+            <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10" stroke="rgba(255,255,255,0.2)" stroke-width="2" fill="none"/>
+                <path d="M8 12l2.5 2.5L16 9" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+        <div id="gen-toast-msg">Dane zapisane!</div>
+    </div>
+
+    <script>
+        function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+        function showToast(msg, icon) {
+            var t = document.getElementById('gen-toast');
+            document.getElementById('gen-toast-msg').textContent = msg;
+            if (icon) t.querySelector('.gen-toast-icon').textContent = icon;
+            t.classList.add('show');
+            setTimeout(function() { t.classList.remove('show'); }, 2500);
+        }
+
+        function generatePeselFromDate() {
+            var dateVal = document.getElementById('gen-birthday').value;
+            if (!dateVal) return;
+            var parts = dateVal.split('-');
+            if (parts.length !== 3) return;
+            var year = parseInt(parts[0]);
+            var month = parseInt(parts[1]);
+            var day = parseInt(parts[2]);
+            var peselYear = year % 100;
+            var monthOffset = month;
+            if (year >= 2000) monthOffset = month + 20;
+            var serial = Math.floor(Math.random() * 9000) + 1000;
+            var pesel = '' + pad(peselYear) + pad(monthOffset) + pad(day) + serial;
+            var checksum = 0;
+            var weights = [1, 3, 7, 9, 1, 3, 7, 9, 1, 3];
+            for (var i = 0; i < 10; i++) checksum += parseInt(pesel[i]) * weights[i];
+            checksum = (10 - (checksum % 10)) % 10;
+            pesel = pesel.substring(0, 10) + checksum;
+            document.getElementById('gen-pesel').value = pesel;
+        }
+
+        function generatePeselRandom() {
+            var day = Math.floor(Math.random() * 28) + 1;
+            var month = Math.floor(Math.random() * 12) + 1;
+            var year = Math.floor(Math.random() * 46) + 1960;
+            var dateStr = year + '-' + pad(month) + '-' + pad(day);
+            document.getElementById('gen-birthday').value = dateStr;
+            generatePeselFromDate();
+        }
+
+        function saveGeneratorData() {
+            var data = {
+                firstName: document.getElementById('gen-firstname').value,
+                lastName: document.getElementById('gen-lastname').value,
+                birthday: document.getElementById('gen-birthday').value,
+                nationality: document.getElementById('gen-nationality').value,
+                pesel: document.getElementById('gen-pesel').value,
+                street: document.getElementById('gen-street').value,
+                postal: document.getElementById('gen-postal').value,
+                city: document.getElementById('gen-city').value,
+                province: document.getElementById('gen-province').value,
+                idSeries: document.getElementById('gen-id-series').value,
+                idNumber: document.getElementById('gen-id-number').value,
+                father: document.getElementById('gen-father').value,
+                mother: document.getElementById('gen-mother').value,
+                familyName: document.getElementById('gen-family-name').value,
+                sex: document.getElementById('gen-sex').value,
+                fatherFamily: document.getElementById('gen-father-family').value,
+                motherFamily: document.getElementById('gen-mother-family').value,
+                birthplace: document.getElementById('gen-birthplace').value,
+                country: document.getElementById('gen-country').value,
+                registrationDate: document.getElementById('gen-registration-date').value,
+                photo: localStorage.getItem('gen_photo') || ''
+            };
+            localStorage.setItem('gen_user_data', JSON.stringify(data));
+            showToast('Dane zapisane! Otwórz mDowód.', '✅');
+        }
+
+        function loadSavedGeneratorData() {
+            var saved = localStorage.getItem('gen_user_data');
+            if (saved) {
+                try {
+                    var d = JSON.parse(saved);
+                    if (d.firstName) document.getElementById('gen-firstname').value = d.firstName;
+                    if (d.lastName) document.getElementById('gen-lastname').value = d.lastName;
+                    if (d.birthday) document.getElementById('gen-birthday').value = d.birthday;
+                    if (d.nationality) document.getElementById('gen-nationality').value = d.nationality;
+                    if (d.pesel) document.getElementById('gen-pesel').value = d.pesel;
+                    if (d.street) document.getElementById('gen-street').value = d.street;
+                    if (d.postal) document.getElementById('gen-postal').value = d.postal;
+                    if (d.city) document.getElementById('gen-city').value = d.city;
+                    if (d.province) document.getElementById('gen-province').value = d.province;
+                    if (d.idSeries) document.getElementById('gen-id-series').value = d.idSeries;
+                    if (d.idNumber) document.getElementById('gen-id-number').value = d.idNumber;
+                    if (d.father) document.getElementById('gen-father').value = d.father;
+                    if (d.mother) document.getElementById('gen-mother').value = d.mother;
+                    if (d.familyName) document.getElementById('gen-family-name').value = d.familyName;
+                    if (d.sex) document.getElementById('gen-sex').value = d.sex;
+                    if (d.fatherFamily) document.getElementById('gen-father-family').value = d.fatherFamily;
+                    if (d.motherFamily) document.getElementById('gen-mother-family').value = d.motherFamily;
+                    if (d.birthplace) document.getElementById('gen-birthplace').value = d.birthplace;
+                    if (d.country) document.getElementById('gen-country').value = d.country;
+                    if (d.registrationDate) document.getElementById('gen-registration-date').value = d.registrationDate;
+                } catch(e) {}
+            }
+            var photo = localStorage.getItem('gen_photo');
+            if (photo) {
+                document.getElementById('gen-photo-preview').style.display = 'block';
+                document.getElementById('gen-photo-img').src = photo;
+            }
+            document.getElementById('gen-id-series').value = 'MD';
+            var letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            var num = '';
+            num += letters.charAt(Math.floor(Math.random() * letters.length));
+            num += letters.charAt(Math.floor(Math.random() * letters.length));
+            num += Math.floor(Math.random() * 90000) + 10000;
+            document.getElementById('gen-id-number').value = num;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSavedGeneratorData();
+
+            var photoInput = document.getElementById('gen-photo');
+            if (photoInput) {
+                photoInput.addEventListener('change', function(e) {
+                    var file = e.target.files[0];
+                    if (file) {
+                        var reader = new FileReader();
+                        reader.onload = function(ev) {
+                            var dataUrl = ev.target.result;
+                            document.getElementById('gen-photo-preview').style.display = 'block';
+                            document.getElementById('gen-photo-img').src = dataUrl;
+                            localStorage.setItem('gen_photo', dataUrl);
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+            }
+        });
+    </script>
+
+    <script src="assets/app/preload.js"></script>
+    <script src="assets/app/bar.js"></script>
+    <script src="assets/app/manifest.js"></script>
+    <script src="assets/cache.js"></script>
+    <script src="assets/app/flow.js"></script>
+</body>

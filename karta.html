@@ -1,0 +1,436 @@
+<head>
+    <title>mObywatel - Profile</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <link rel="stylesheet" href="assets/app/preloader.css">
+    <link rel="stylesheet" href="assets/app/main.css">
+    <link rel="stylesheet" href="assets/app/flow.css">
+    <link rel="icon" type="image/x-icon" href="assets/app/images/logo.svg">
+    <link rel="apple-touch-icon" href="assets/app/images/logo.svg">
+    <link rel="shortcut icon" href="assets/app/images/logo.svg">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width, initial-scale=0.8, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <style>
+        body { background: #f5f6fb; margin: 0; padding: 0; }
+        * { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", Helvetica, ui-sans-serif, system-ui, sans-serif; font-weight: 500; -webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: transparent; }
+        .karta-header { position: fixed; top: 0; left: 0; width: 100%; height: 60px; background: #f5f6fb; display: grid; grid-template-columns: 25% 50% 25%; align-items: center; z-index: 100; padding-top: 10px; }
+        .karta-back { display: grid; grid-template-columns: max-content max-content; align-items: center; cursor: pointer; margin-left: 10px; }
+        .karta-back img { width: 15px; }
+        .karta-back span { color: #1657e0; font-size: 22px; font-weight: 400; margin-left: 10px; }
+        .karta-title { font-size: 20px; color: #1f2227; text-align: center; font-weight: 500; }
+        .karta-container { width: 90%; margin: 100px auto 30px auto; }
+        .karta-card { background: #ffffff; border-radius: 15px; padding: 20px; margin-bottom: 20px; box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.06); }
+        .karta-card-title { font-size: 19px; font-weight: 600; color: #6b7280; margin-bottom: 15px; }
+        
+        .profile-item { display: grid; grid-template-columns: 50px 1fr auto auto; gap: 8px; align-items: center; padding: 14px; border: 1px solid #e4e6ec; border-radius: 12px; margin-bottom: 10px; cursor: pointer; transition: all 0.2s; background: #f9f9fb; }
+        .profile-item:active { transform: scale(0.98); }
+        .profile-item.selected { border-color: #1657e0; background: #e3effd; }
+        .profile-avatar { width: 50px; height: 50px; border-radius: 25px; background: #e4e6ec; display: flex; align-items: center; justify-content: center; font-size: 22px; color: #6b7280; overflow: hidden; }
+        .profile-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .profile-name { font-size: 17px; font-weight: 600; color: #1f2227; }
+        .profile-desc { font-size: 13px; color: #6b7280; margin-top: 2px; }
+        .profile-check { width: 24px; height: 24px; border-radius: 12px; border: 2px solid #d1d5db; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .profile-check.active { background: #1657e0; border-color: #1657e0; }
+        .profile-check.active::after { content: '✓'; color: white; font-size: 14px; font-weight: 700; }
+        .profile-delete { width: 28px; height: 28px; border-radius: 14px; border: none; background: #fee2e2; color: #dc2626; font-size: 16px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-left: 6px; }
+        .profile-delete:active { background: #fecaca; }
+        
+        .karta-btn { width: 100%; padding: 16px; background: #1657e0; color: white; border: none; border-radius: 14px; font-size: 18px; font-weight: 600; cursor: pointer; margin-top: 10px; box-sizing: border-box; }
+        .karta-btn:active { background: #0f45b8; }
+        .karta-btn-secondary { background: #e3effd; color: #1657e0; margin-top: 6px; }
+
+        /* Toast */
+        .karta-toast { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.9); background: rgba(0,0,0,0.75); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); color: white; padding: 24px 32px; border-radius: 16px; font-size: 17px; font-weight: 500; text-align: center; z-index: 9999; opacity: 0; pointer-events: none; transition: all 0.25s ease; max-width: 80%; line-height: 1.4; }
+        .karta-toast.show { opacity: 1; transform: translate(-50%, -50%) scale(1); pointer-events: auto; }
+        .karta-toast-icon { margin-bottom: 12px; }
+
+        /* Confirm popup */
+        .karta-confirm-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 9998; display: none; align-items: center; justify-content: center; }
+        .karta-confirm-overlay.show { display: flex; }
+        .karta-confirm-box { background: white; border-radius: 20px; padding: 28px 24px; width: 80%; max-width: 300px; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.2); }
+        .karta-confirm-title { font-size: 17px; font-weight: 600; color: #1f2227; margin-bottom: 8px; }
+        .karta-confirm-desc { font-size: 14px; color: #6b7280; margin-bottom: 24px; line-height: 1.4; }
+        .karta-confirm-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .karta-confirm-cancel { padding: 12px; background: #f3f4f6; color: #1f2227; border: none; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer; }
+        .karta-confirm-confirm { padding: 12px; background: #dc2626; color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div id="app-preloader" class="app-preloader" aria-busy="true" aria-live="polite"><div class="app-preloader__spinner" aria-hidden="true"></div></div>
+
+    <div class="karta-header">
+        <div class="karta-back" onclick="goBack('more.html')">
+            <img src="assets/app/images/back_blue.svg">
+            <span>Wróć</span>
+        </div>
+        <div class="karta-title">Zapisane profile</div>
+        <div></div>
+    </div>
+
+    <div class="karta-container">
+        <div class="karta-card">
+            <div class="karta-card-title">Wybierz profil</div>
+            <div id="profiles-list"></div>
+        </div>
+
+        <button class="karta-btn" onclick="applyProfile()">Wczytaj wybrany profil</button>
+        <button class="karta-btn karta-btn-secondary" onclick="saveCurrentAsProfile()">Zapisz obecne dane jako nowy profil</button>
+        <div style="height:40px;"></div>
+    </div>
+
+    <!-- Toast -->
+    <div class="karta-toast" id="karta-toast">
+        <div class="karta-toast-icon">
+            <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10" stroke="rgba(255,255,255,0.2)" stroke-width="2" fill="none"/>
+                <path d="M8 12l2.5 2.5L16 9" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+        <div id="karta-toast-msg">Gotowe!</div>
+    </div>
+
+    <!-- Confirm popup -->
+    <div class="karta-confirm-overlay" id="karta-confirm">
+        <div class="karta-confirm-box">
+            <div class="karta-confirm-title" id="karta-confirm-title">Usunąć profil?</div>
+            <div class="karta-confirm-desc" id="karta-confirm-desc">Tej operacji nie można cofnąć.</div>
+            <div class="karta-confirm-btns">
+                <button class="karta-confirm-cancel" onclick="closeConfirm()">Anuluj</button>
+                <button class="karta-confirm-confirm" id="karta-confirm-btn">Usuń</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var pendingDeleteId = null;
+
+        var defaultProfiles = [
+            {
+                id: 'henryk',
+                name: 'Henryk Nowak',
+                desc: 'mDowód • Warszawa',
+                initials: 'HN',
+                firstName: 'Henryk',
+                lastName: 'Nowak',
+                birthday: '1985-03-15',
+                nationality: 'polskie',
+                pesel: '85031502957',
+                street: 'Mickiewicza 10/5',
+                postal: '00-001',
+                city: 'Warszawa',
+                province: 'mazowieckie',
+                idSeries: 'MD',
+                idNumber: 'AB12345',
+                father: 'Zygmunt',
+                mother: 'Halina',
+                familyName: 'NOWAK',
+                sex: 'Mężczyzna',
+                fatherFamily: 'NOWAK',
+                motherFamily: 'KOWALSKA',
+                birthplace: 'Warszawa',
+                country: 'Polska',
+                registrationDate: '2019-06-01'
+            },
+            {
+                id: 'sergiusz',
+                name: 'Sergiusz Wajda',
+                desc: 'mDowód • Gdańsk',
+                initials: 'SW',
+                firstName: 'Sergiusz',
+                lastName: 'Wajda',
+                birthday: '1992-11-07',
+                nationality: 'polskie',
+                pesel: '92110703829',
+                street: 'Morska 15/3',
+                postal: '80-001',
+                city: 'Gdańsk',
+                province: 'pomorskie',
+                idSeries: 'MD',
+                idNumber: 'CD67890',
+                father: 'Bronisław',
+                mother: 'Maria',
+                familyName: 'WAJDA',
+                sex: 'Mężczyzna',
+                fatherFamily: 'WAJDA',
+                motherFamily: 'WIŚNIEWSKA',
+                birthplace: 'Gdynia',
+                country: 'Polska',
+                registrationDate: '2015-03-20'
+            },
+            {
+                id: 'karol',
+                name: 'Karol Wiśniewski',
+                desc: 'mDowód • Kraków',
+                initials: 'KW',
+                firstName: 'Karol',
+                lastName: 'Wiśniewski',
+                birthday: '1978-06-22',
+                nationality: 'polskie',
+                pesel: '78062202957',
+                street: 'Kopernika 8/12',
+                postal: '30-001',
+                city: 'Kraków',
+                province: 'małopolskie',
+                idSeries: 'MD',
+                idNumber: 'EF11111',
+                father: 'Andrzej',
+                mother: 'Barbara',
+                familyName: 'WIŚNIEWSKI',
+                sex: 'Mężczyzna',
+                fatherFamily: 'WIŚNIEWSKI',
+                motherFamily: 'MAZUR',
+                birthplace: 'Kraków',
+                country: 'Polska',
+                registrationDate: '2005-11-15'
+            },
+            {
+                id: 'anna',
+                name: 'Anna Kowalczyk',
+                desc: 'mDowód • Poznań',
+                initials: 'AK',
+                firstName: 'Anna',
+                lastName: 'Kowalczyk',
+                birthday: '1995-09-30',
+                nationality: 'polskie',
+                pesel: '95093003829',
+                street: 'Słoneczna 25',
+                postal: '60-001',
+                city: 'Poznań',
+                province: 'wielkopolskie',
+                idSeries: 'MD',
+                idNumber: 'GH22222',
+                father: 'Tadeusz',
+                mother: 'Ewa',
+                familyName: 'KOWALCZYK',
+                sex: 'Kobieta',
+                fatherFamily: 'KOWALCZYK',
+                motherFamily: 'ADAMCZYK',
+                birthplace: 'Poznań',
+                country: 'Polska',
+                registrationDate: '2018-08-10'
+            }
+        ];
+
+        function showToast(msg) {
+            var t = document.getElementById('karta-toast');
+            document.getElementById('karta-toast-msg').textContent = msg;
+            t.classList.add('show');
+            setTimeout(function() { t.classList.remove('show'); }, 2500);
+        }
+
+        function showConfirm(title, desc, onConfirm) {
+            document.getElementById('karta-confirm-title').textContent = title;
+            document.getElementById('karta-confirm-desc').textContent = desc;
+            document.getElementById('karta-confirm').classList.add('show');
+            var btn = document.getElementById('karta-confirm-btn');
+            var newBtn = btn.cloneNode(true);
+            btn.parentNode.replaceChild(newBtn, btn);
+            newBtn.addEventListener('click', function() {
+                closeConfirm();
+                if (onConfirm) onConfirm();
+            });
+        }
+
+        function closeConfirm() {
+            document.getElementById('karta-confirm').classList.remove('show');
+        }
+
+        function getProfiles() {
+            var saved = localStorage.getItem('saved_profiles');
+            if (saved) {
+                try {
+                    var parsed = JSON.parse(saved);
+                    if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+                } catch(e) {}
+            }
+            return defaultProfiles;
+        }
+
+        function saveProfiles(profiles) {
+            localStorage.setItem('saved_profiles', JSON.stringify(profiles));
+        }
+
+        function loadProfiles() {
+            var profiles = getProfiles();
+            var list = document.getElementById('profiles-list');
+            list.innerHTML = '';
+            
+            var activeProfile = localStorage.getItem('active_profile') || 'henryk';
+            
+            profiles.forEach(function(p) {
+                var div = document.createElement('div');
+                div.className = 'profile-item' + (activeProfile === p.id ? ' selected' : '');
+                div.dataset.id = p.id;
+                
+                var photoKey = 'profile_photo_' + p.id;
+                var photoData = localStorage.getItem(photoKey);
+                
+                var avatarHtml = photoData 
+                    ? '<img src="' + photoData + '">'
+                    : p.initials;
+                
+                div.innerHTML = '<div class="profile-avatar">' + avatarHtml + '</div>' +
+                    '<div><div class="profile-name">' + p.name + '</div><div class="profile-desc">' + (p.desc || '') + '</div></div>' +
+                    '<div class="profile-check' + (activeProfile === p.id ? ' active' : '') + '"></div>' +
+                    '<button class="profile-delete" data-id="' + p.id + '">✕</button>';
+                
+                div.addEventListener('click', function(e) {
+                    if (e.target.classList.contains('profile-delete')) return;
+                    document.querySelectorAll('.profile-item').forEach(function(el) {
+                        el.classList.remove('selected');
+                        el.querySelector('.profile-check').classList.remove('active');
+                    });
+                    div.classList.add('selected');
+                    div.querySelector('.profile-check').classList.add('active');
+                    localStorage.setItem('active_profile', p.id);
+                });
+                
+                var delBtn = div.querySelector('.profile-delete');
+                delBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    showConfirm('Usunąć profil?', 'Profil "' + p.name + '" zostanie trwale usunięty.', function() {
+                        var profiles = getProfiles();
+                        var idx = profiles.findIndex(function(pr) { return pr.id === p.id; });
+                        if (idx !== -1) {
+                            profiles.splice(idx, 1);
+                            if (profiles.length === 0) {
+                                saveProfiles(defaultProfiles);
+                                localStorage.removeItem('profile_photo_' + p.id);
+                                localStorage.setItem('active_profile', 'henryk');
+                            } else {
+                                saveProfiles(profiles);
+                                localStorage.removeItem('profile_photo_' + p.id);
+                                if (localStorage.getItem('active_profile') === p.id) {
+                                    localStorage.setItem('active_profile', profiles[0].id);
+                                }
+                            }
+                            loadProfiles();
+                            showToast('Usunięto profil');
+                        }
+                    });
+                });
+                
+                list.appendChild(div);
+            });
+        }
+
+        function applyProfile() {
+            var activeId = localStorage.getItem('active_profile') || 'henryk';
+            var profiles = getProfiles();
+            var profile = profiles.find(function(p) { return p.id === activeId; });
+            
+            if (!profile) {
+                showToast('Nie znaleziono profilu');
+                return;
+            }
+
+            var data = {
+                firstName: profile.firstName || '',
+                lastName: profile.lastName || '',
+                birthday: profile.birthday || '',
+                nationality: profile.nationality || 'polskie',
+                pesel: profile.pesel || '',
+                street: profile.street || '',
+                postal: profile.postal || '',
+                city: profile.city || '',
+                province: profile.province || '',
+                idSeries: profile.idSeries || 'MD',
+                idNumber: profile.idNumber || '',
+                father: profile.father || '',
+                mother: profile.mother || '',
+                familyName: profile.familyName || '',
+                sex: profile.sex || 'Mężczyzna',
+                fatherFamily: profile.fatherFamily || '',
+                motherFamily: profile.motherFamily || '',
+                birthplace: profile.birthplace || '',
+                country: profile.country || 'Polska',
+                registrationDate: profile.registrationDate || '',
+                photo: localStorage.getItem('profile_photo_' + profile.id) || ''
+            };
+
+            var photoKey = 'profile_photo_' + profile.id;
+            var photoData = localStorage.getItem(photoKey);
+            if (photoData) {
+                localStorage.setItem('gen_photo', photoData);
+            }
+
+            localStorage.setItem('gen_user_data', JSON.stringify(data));
+            showToast('Wczytano: ' + profile.name);
+        }
+
+        function saveCurrentAsProfile() {
+            var saved = localStorage.getItem('gen_user_data');
+            if (!saved) {
+                showToast('Najpierw wygeneruj dane w Generatorze');
+                return;
+            }
+            
+            var name = prompt('Nazwa profilu (np. "Jan Kowalski"):');
+            if (!name || name.trim() === '') return;
+            
+            try {
+                var d = JSON.parse(saved);
+                var profiles = getProfiles();
+                
+                var initials = name.split(' ').map(function(w) { return w[0]; }).join('').toUpperCase().substring(0, 2);
+                var desc = 'mDowód • ' + (d.city || 'Miasto');
+                
+                var newProfile = {
+                    id: 'profile_' + Date.now(),
+                    name: name.trim(),
+                    desc: desc,
+                    initials: initials || '??',
+                    firstName: d.firstName || '',
+                    lastName: d.lastName || '',
+                    birthday: d.birthday || '',
+                    nationality: d.nationality || 'polskie',
+                    pesel: d.pesel || '',
+                    street: d.street || '',
+                    postal: d.postal || '',
+                    city: d.city || '',
+                    province: d.province || '',
+                    idSeries: d.idSeries || 'MD',
+                    idNumber: d.idNumber || '',
+                    father: d.father || '',
+                    mother: d.mother || '',
+                    familyName: d.familyName || '',
+                    sex: d.sex || 'Mężczyzna',
+                    fatherFamily: d.fatherFamily || '',
+                    motherFamily: d.motherFamily || '',
+                    birthplace: d.birthplace || '',
+                    country: d.country || 'Polska',
+                    registrationDate: d.registrationDate || ''
+                };
+
+                var photo = localStorage.getItem('gen_photo');
+                if (photo) {
+                    localStorage.setItem('profile_photo_' + newProfile.id, photo);
+                }
+
+                profiles.push(newProfile);
+                saveProfiles(profiles);
+                localStorage.setItem('active_profile', newProfile.id);
+                loadProfiles();
+                showToast('Zapisano: ' + newProfile.name);
+            } catch(e) {
+                showToast('Błąd zapisu profilu');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!localStorage.getItem('saved_profiles')) {
+                saveProfiles(defaultProfiles);
+            }
+            loadProfiles();
+        });
+    </script>
+
+    <script src="assets/app/preload.js"></script>
+    <script src="assets/app/bar.js"></script>
+    <script src="assets/app/manifest.js"></script>
+    <script src="assets/cache.js"></script>
+    <script src="assets/app/flow.js"></script>
+</body>

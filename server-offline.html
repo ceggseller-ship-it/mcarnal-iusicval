@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <title>mObywatel</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <link rel="stylesheet" href="assets/app/preloader.css">
+    <link rel="stylesheet" href="assets/app/main.css">
+    <link rel="stylesheet" href="assets/app/server-offline.css">
+    <link rel="icon" type="image/x-icon" href="assets/app/images/logo.svg">
+    <link rel="apple-touch-icon" href="assets/app/images/logo.svg">
+    <link rel="shortcut icon" href="assets/app/images/logo.svg">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width, initial-scale=0.8, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+</head>
+<body>
+    <div id="app-preloader" class="app-preloader" aria-busy="true" aria-live="polite"><div class="app-preloader__spinner" aria-hidden="true"></div></div>
+    <div class="top_grid_fixed">
+        <div class="action_grid_fixed" onclick="goBack('documents.html')">
+            <img src="images/back_blue.svg" class="back_img_fixed">
+            <p class="back_text_fixed">Wr&#243;&#263;</p>
+        </div>
+        <p class="title_text_fixed">Usługi</p>
+        <img src="assets/app/images/help.svg" class="help_img_fixed" alt="">
+    </div>
+
+    <div class="bottom_bar">
+        <div class="bottom_bar_grid">
+            <div class="bottom_element_grid" send="documents">
+                <div class="bottom_element_image documents"></div>
+                <p class="bottom_element_text">Dokumenty</p>
+            </div>
+            <div class="bottom_element_grid" send="services">
+                <div class="bottom_element_image services services_open"></div>
+                <p class="bottom_element_text open">Usługi</p>
+            </div>
+            <div class="bottom_element_grid" send="qr">
+                <div class="bottom_element_image qr"></div>
+                <p class="bottom_element_text">Kod QR</p>
+            </div>
+            <div class="bottom_element_grid" send="more">
+                <div class="bottom_element_image more"></div>
+                <p class="bottom_element_text">Więcej</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="container server_offline_wrap">
+        <img src="assets/app/images/info.svg" class="server_offline_icon" alt="">
+        <h1 class="server_offline_title">Chwilowy brak połączenia z&nbsp;serwerem</h1>
+        <p class="server_offline_sub">Spróbuj ponownie za chwilę.</p>
+    </div>
+
+    <script src="assets/app/preload.js"></script>
+    <script src="assets/app/bar.js"></script>
+    <script src="assets/app/manifest.js"></script>
+    <script src="assets/cache.js"></script>
+</body>
+</html>
+
+
+

@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <title>mObywatel</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <link rel="stylesheet" href="assets/app/preloader.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/id.css">
+</head>
+<body>
+    <div id="app-preloader" class="app-preloader" aria-busy="true" aria-live="polite"><div class="app-preloader__spinner" aria-hidden="true"></div></div>
+    <div class="background"></div>
+    <div class="container">
+        <div class="top_grid">
+            <img class="logo" src="images/logo_large.svg">
+            <p class="logo_text">mObywatel</p>
+        </div>
+        <div class="top_text">
+            <p class="welcome">Dzień dobry!</p>
+            <p class="login_text">Zaloguj się do aplikacji.</p>
+        </div>
+        <div class="password_box">
+            <div class="password_grid">
+                <p class="password_text">Hasło</p>
+                <div class="input_holder">
+                    <input type="password" class="password_input" autocomplete="off" placeholder="Wpisz hasło">
+                    <div class="eye" onclick="AndroidInterface.startFingerprint()"></div>
+                </div>
+                <p class="forgot_password">Nie pamiętasz hasła?</p>
+            </div>
+        </div>
+        <div class="bottom">
+            <p class="login" onclick="checkLogin()">Zaloguj się</p>
+            <div class="data">
+                <img class="logo_other" style="height: 20px;" src="images/coi.svg">
+                <img class="logo_other" src="images/mc.svg">
+                <p class="version">wersja 4.63.1 (754)</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/app/preload.js"></script>
+    <script>
+        function checkLogin() {
+            const pass = document.querySelector('.password_input').value;
+            if (pass === '1234') {
+                if (typeof window.showNavigationPreloader === 'function') {
+                    window.showNavigationPreloader('documents.html');
+                } else {
+                    window.location.href = 'documents.html';
+                }
+            } else {
+                alert('Błędne hasło');
+            }
+        }
+        document.querySelectorAll('.forgot_password').forEach(function (el) {
+            el.style.cursor = 'pointer';
+            el.addEventListener('click', function () {
+                if (typeof window.showNavigationPreloader === 'function') {
+                    window.showNavigationPreloader('server-offline.html');
+                } else {
+                    window.location.href = 'server-offline.html';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
+
+

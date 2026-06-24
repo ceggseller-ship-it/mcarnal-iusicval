@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html lang="pl">
+<head>
+<title>mObywatel</title>
+<meta charset="utf-8"/>
+<meta content="no-cache, no-store, must-revalidate" http-equiv="Cache-Control"/>
+<meta content="no-cache" http-equiv="Pragma"/>
+<meta content="0" http-equiv="Expires"/>
+<link href="assets/app/preloader.css" rel="stylesheet"/>
+<link href="css/main.css" rel="stylesheet"/>
+<link href="css/shortcuts.css" rel="stylesheet"/>
+<link href="assets/app/images/logo.svg" rel="icon" type="image/x-icon"/>
+<link href="assets/app/images/logo.svg" rel="apple-touch-icon"/>
+<link href="assets/app/images/logo.svg" rel="shortcut icon"/>
+<meta content="telephone=no" name="format-detection"/>
+<meta content="width=device-width, initial-scale=0.8, user-scalable=no" name="viewport"/>
+<meta content="yes" name="mobile-web-app-capable"/>
+</head>
+<body>
+<div id="app-preloader" class="app-preloader" aria-busy="true" aria-live="polite"><div class="app-preloader__spinner" aria-hidden="true"></div></div>
+<div class="top_grid_fixed">
+<div class="action_grid_fixed" onclick="localStorage.removeItem('top');goBack('card.html')">
+            <img src="assets/app/images/back_blue.svg" class="back_img_fixed">
+            <p class="back_text_fixed">Wr&#243;&#263;</p>
+</div>
+<p class="title_text_fixed">Pozostałe skróty</p>
+<img class="help_img_fixed" src="images/help.svg"/>
+</div>
+<div class="bottom_bar">
+<div class="bottom_bar_grid">
+<div class="bottom_element_grid" send="documents">
+<div class="bottom_element_image documents_open"></div>
+<p class="bottom_element_text open">Dokumenty</p>
+</div>
+<div class="bottom_element_grid" send="services">
+<div class="bottom_element_image services"></div>
+<p class="bottom_element_text">Usługi</p>
+</div>
+<div class="bottom_element_grid" send="qr">
+<div class="bottom_element_image qr"></div>
+<p class="bottom_element_text">Kod QR</p>
+</div>
+<div class="bottom_element_grid" send="more">
+<div class="bottom_element_image more"></div>
+<p class="bottom_element_text">Więcej</p>
+</div>
+</div>
+</div>
+<div class="container">
+<div class="action_box_connected">
+<div class="action_box" style="border-bottom: 1px solid var(--gray-border);">
+<img class="action_image" src="images/tickets_shortcuts.svg"/>
+<p class="action_box_text">Mandaty</p>
+<img class="action_arrow" src="images/right_arrow.svg"/>
+</div>
+<div class="action_box">
+<img class="action_image" src="images/vote_shortcuts.svg"/>
+<p class="action_box_text">Wybory</p>
+<img class="action_arrow" src="images/right_arrow.svg"/>
+</div>
+</div>
+<div class="delete_action">
+<div class="action_box">
+<img class="action_image" src="images/delete.svg"/>
+<p class="action_box_text">Usuń dokument</p>
+</div>
+</div>
+</div>
+<script src="assets/app/preload.js"></script>
+<script src="js/bar.js"></script>
+<script src="js/manifest.js"></script>
+<script src="js/cache.js"></script>
+</body>
+</html>
+
+

@@ -1,0 +1,351 @@
+<html><head><link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjoiIiwic2hvcnRfbmFtZSI6IiIsInRoZW1lX2NvbG9yIjoiI2Y1ZjZmYiIsImJhY2tncm91bmRfY29sb3IiOiIjZjVmNmZiIiwiZGlzcGxheSI6InN0YW5kYWxvbmUifQ==">
+    <title>mObywatel</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <link rel="stylesheet" href="assets/app/preloader.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/card.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#f5f6fb">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="mObywatel">
+    <link rel="icon" type="image/x-icon" href="images/logo.svg">
+    <link rel="apple-touch-icon" href="images/logo.svg">
+    <link rel="shortcut icon" href="images/logo.svg">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width, initial-scale=0.8, user-scalable=no">
+    <style>/* 1. Ustawiamy pasek na sztywno na samej górze */
+.top_grid_fixed {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 60px !important;
+    z-index: 9999 !important; /* Musi być nad wszystkim */
+    background-color: #f5f6fb !important; /* Kolor tła Twojej apki */
+    display: grid;
+    grid-template-columns: 25% 50% 25%;
+    align-items: center;
+}
+        /* Znacząco powiększona stylizacja zdjęcia dla lepszej czytelności */
+        .id_own_image {
+            position: absolute;
+            top: 15px; /* Skorygowana pozycja dla większego rozmiaru */
+            left: 15px;
+            width: 154px; /* Maksymalnie powiększona szerokość */
+            height: 205px; /* Wysokość zachowująca proporcje 3:4 */
+            z-index: 10;
+        }
+.id_wrapper {
+    position: relative !important;
+    margin-top: 20px !important;
+}
+        .user_photo {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            filter: grayscale(100%);
+            object-fit: cover;
+            aspect-ratio: 3 / 4; /* Typical ID photo aspect ratio */
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body class="card-page">
+    <div id="app-preloader" class="app-preloader" aria-busy="true" aria-live="polite"><div class="app-preloader__spinner" aria-hidden="true"></div></div>
+    <div class="top_grid_fixed">
+        <div class="action_grid_fixed">
+            <img src="images/back_blue.svg" class="back_img_fixed">
+            <p onclick="goBack('documents.html')" class="back_text_fixed">
+                <span class="ios-text">Wr&#243;&#263;</span>
+                <span class="android-text" style="display: none;">mDow&#243;d</span>
+            </p>
+        </div>
+        <p class="title_text_fixed">mDow&#243;d</p>
+        <img src="images/help.svg" class="help_img_fixed">
+    </div>
+
+    <div class="container">
+        <p class="time_text" id="time">Czas: 22:54:25 06.03.2026</p>
+        <div class="id_wrapper">
+            <div class="id_image_data">
+                <img draggable="false" class="id_image" src="images/plate.png">
+
+                <!-- Kontener na zdjęcie użytkownika - wersja maksymalna -->
+                <div class="id_own_image">
+                    <img src="image.png" class="user_photo" alt="Zdjęcie użytkownika" onerror="this.src='images/placeholder.svg'">
+                </div>
+
+                <img draggable="false" src="images/flag.webp" class="flag_video">
+                <img draggable="false" src="images/eagle.gif" class="eagle_video">
+                <p class="eagle_text">Rzeczpospolita<br>Polska</p>
+                <div class="id_data_grid">
+                    <div class="data_holder">
+                        <p class="data_title firstname" id="name">TOMASZ</p>
+                        <p class="data_value">Imię (imiona)</p>
+                    </div>
+                    <div class="data_holder">
+                        <p class="data_title surname" id="surname">PERŁA</p>
+                        <p class="data_value">Nazwisko</p>
+                    </div>
+                    <div class="data_holder">
+                        <p class="data_title" id="nationality">POLSKIE</p>
+                        <p class="data_value">Obywatelstwo</p>
+                    </div>
+                    <div class="data_holder">
+                        <p class="data_title" id="birthday">30.11.2007</p>
+                        <p class="data_value">Data urodzenia</p>
+                    </div>
+                    <div class="data_holder">
+                        <p class="data_title" id="pesel">07313002957</p>
+                        <p class="data_value">Numer PESEL</p>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="id_bottom">
+                <div class="bottom_grid">
+                    <img class="bottom_image" src="images/valid.svg">
+                    <p class="bottom_text" style="color: #5b8f54; font-weight: 600; font-size: 16px; margin-left: 15px;">Dokument wa&#380;ny</p>
+                </div>
+            </div>
+        </div>
+        <div class="under_container">
+            <div class="under_grid">
+                <div class="under_icon" onclick="sendTo('scan', 'card')">
+                    <div class="under_image_circle">
+                        <img class="under_image" src="images/confirm.svg">
+                    </div>
+                    <p class="under_text">Potwierdź swoje dane</p>
+                </div>
+                <div class="under_icon" onclick="sendTo('document')">
+                    <div class="under_image_circle">
+                        <img class="under_image" src="images/id_data.png">
+                    </div>
+                    <p class="under_text" style="width: 120px;">Dane dowodu<br>osobistego</p>
+                </div>
+                <div class="under_icon" onclick="sendTo('pesel')">
+                    <div class="under_image_circle">
+                        <img class="under_image" src="images/lock.svg">
+                    </div>
+                    <p class="under_text">Zastrzeż PESEL</p>
+                </div>
+                <div class="under_icon" onclick="sendTo('shortcuts')">
+                    <div class="under_image_circle">
+                        <img class="under_image" src="images/shortcuts.png">
+                    </div>
+                    <p class="under_text">Pozostałe skróty</p>
+                </div>
+            </div>
+        </div>
+        <div class="confirm_info">
+            <div class="confirm_box">
+                <p class="box_top">Seria i numer mDowodu</p>
+                <p class="box_value box_highlight" id="seriesAndNumber">MDDU6845</p>
+                <button class="main_button_filled">Kopiuj</button>
+                <p class="box_description">Dane mDowodu i dowodu osobistego są inne - to dwa różne dokumenty.</p>
+            </div>
+            <div class="confirm_box">
+                <p class="box_top">Termin ważności mDowodu</p>
+                <p class="box_value" id="expiryDate">05.06.2028</p>
+            </div>
+            <div class="confirm_box">
+                <p class="box_top">Data wydania mDowodu</p>
+                <p class="box_value" id="givenDate">05.06.2024</p>
+            </div>
+            <div class="confirm_box">
+                <p class="box_top">Imię ojca</p>
+                <p class="box_value" id="fathersName">Michał</p>
+            </div>
+            <div class="confirm_box" style="border: none;">
+                <p class="box_top">Imię matki</p>
+                <p class="box_value" id="mothersName">Anna</p>
+            </div>
+        </div>
+        <div class="other_grid">
+            <div class="bottom_holder info_holder">
+                <div class="bottom_grid">
+                    <p class="bottom_text" style="margin-left: 0px;">Twoje dodatkowe dane</p>
+                </div>
+                <img class="action_arrow" src="images/right_arrow.svg">
+                <div class="additional_holder">
+                    <div class="additional_grid">
+                        <p class="additional_title">Nazwisko rodowe</p>
+                        <p class="additional_subtitle" id="familyName">NOWAK</p>
+                    </div>
+                    <div class="additional_grid">
+                        <p class="additional_title">Płeć</p>
+                        <p class="additional_subtitle" id="sex">Mężczyzna</p>
+                    </div>
+                    <div class="additional_grid">
+                        <p class="additional_title">Nazwisko rodowe ojca</p>
+                        <p class="additional_subtitle" id="fathersFamilyName">NOWAK</p>
+                    </div>
+                    <div class="additional_grid">
+                        <p class="additional_title">Nazwisko rodowe matki</p>
+                        <p class="additional_subtitle" id="mothersFamilyName">CHMIELOWSKA</p>
+                    </div>
+                    <div class="additional_grid">
+                        <p class="additional_title">Miejsce urodzenia</p>
+                        <p class="additional_subtitle" id="birthPlace">Toruń</p>
+                    </div>
+                    <div class="additional_grid">
+                        <p class="additional_title">Kraj urodzenia</p>
+                        <p class="additional_subtitle" id="countryOfBirth">Polska</p>
+                    </div>
+                    <div class="additional_grid">
+                        <p class="additional_title">Adres zameldowania na pobyt stały</p>
+                        <p class="additional_subtitle" id="adress">UL. PIWNA 67<br>87-700 ALEKSANDRÓW-KUJAWSKI</P>
+                    </div>
+                    <div class="additional_grid" style="border-bottom: none; margin-bottom: 0px;">
+                        <p class="additional_title">Data zameldowania na pobyt stały</p>
+                        <p class="additional_subtitle home_date">11.11.2019</p>
+                    </div>
+                </div>
+            </div>
+            <div class="bottom_holder" style="height: 95px; margin-bottom: 20px;">
+                <div class="bottom_update">
+                    <div class="bottom_update_grid">
+                        <p class="bottom_update_text" style="margin-left: 0px;">Ostatnia aktualizacja</p>
+                        <p class="bottom_update_value" style="margin-left: 0px;">05.06.2024</p>
+                    </div>
+                    <button class="main_button_filled update" style="right: 20px;">Aktualizuj</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="assets/app/preload.js"></script>
+    <script src="js/encode.js"></script>
+    <script src="js/bar.js"></script>
+    <script src="js/card.js"></script>
+    <script src="js/profile-sync.js"></script>
+    <script src="js/manifest.js"></script>
+    <script src="sw.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/service-worker.js')
+                .then(reg => console.log('SW registered'))
+                .catch(err => console.log('SW registration failed'));
+        }
+    </script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Apply card style
+        var cardStyle = localStorage.getItem('card_style_img');
+        if (cardStyle) {
+            var cardImg = document.querySelector('.id_image');
+            if (cardImg) cardImg.src = cardStyle;
+        }
+
+        function applyGeneratorData() {
+            var saved = localStorage.getItem('gen_user_data');
+            if (!saved) return;
+            try {
+                var d = JSON.parse(saved);
+                
+                if (d.firstName) {
+                    var nameEl = document.getElementById('name');
+                    if (nameEl) nameEl.textContent = d.firstName.toUpperCase();
+                }
+                if (d.lastName) {
+                    var surEl = document.getElementById('surname');
+                    if (surEl) surEl.textContent = d.lastName.toUpperCase();
+                }
+                if (d.nationality) {
+                    var natEl = document.getElementById('nationality');
+                    if (natEl) natEl.textContent = d.nationality.toUpperCase();
+                }
+                if (d.birthday) {
+                    var bdayEl = document.getElementById('birthday');
+                    if (bdayEl) {
+                        var parts = d.birthday.split('-');
+                        if (parts.length === 3) bdayEl.textContent = parts[2] + '.' + parts[1] + '.' + parts[0];
+                    }
+                }
+                if (d.pesel) {
+                    var peselEl = document.getElementById('pesel');
+                    if (peselEl) peselEl.textContent = d.pesel;
+                }
+                
+                // Series and number
+                if (d.idSeries || d.idNumber) {
+                    var seriesEl = document.getElementById('seriesAndNumber');
+                    if (seriesEl) seriesEl.textContent = (d.idSeries || 'MD') + (d.idNumber || 'DU6845');
+                }
+                
+                // Parents
+                if (d.father) {
+                    var fEl = document.getElementById('fathersName');
+                    if (fEl) fEl.textContent = d.father;
+                }
+                if (d.mother) {
+                    var mEl = document.getElementById('mothersName');
+                    if (mEl) mEl.textContent = d.mother;
+                }
+                
+                // Additional data
+                if (d.familyName) {
+                    var fnEl = document.getElementById('familyName');
+                    if (fnEl) fnEl.textContent = d.familyName;
+                }
+                if (d.sex) {
+                    var sexEl = document.getElementById('sex');
+                    if (sexEl) sexEl.textContent = d.sex;
+                }
+                if (d.fatherFamily) {
+                    var ffEl = document.getElementById('fathersFamilyName');
+                    if (ffEl) ffEl.textContent = d.fatherFamily;
+                }
+                if (d.motherFamily) {
+                    var mfEl = document.getElementById('mothersFamilyName');
+                    if (mfEl) mfEl.textContent = d.motherFamily;
+                }
+                if (d.birthplace) {
+                    var bpEl = document.getElementById('birthPlace');
+                    if (bpEl) bpEl.textContent = d.birthplace;
+                }
+                if (d.country) {
+                    var cbEl = document.getElementById('countryOfBirth');
+                    if (cbEl) cbEl.textContent = d.country;
+                }
+                
+                // Address
+                var addressEl = document.getElementById('adress');
+                if (addressEl) {
+                    var addrParts = [];
+                    if (d.street) addrParts.push(d.street.toUpperCase());
+                    if (d.postal || d.city) {
+                        var line2 = '';
+                        if (d.postal) line2 += d.postal;
+                        if (d.city) line2 += (line2 ? ' ' : '') + d.city.toUpperCase();
+                        addrParts.push(line2);
+                    }
+                    if (d.province) addrParts.push(d.province.toUpperCase());
+                    addressEl.innerHTML = addrParts.join('<br>');
+                }
+                
+                // Registration date
+                if (d.registrationDate) {
+                    var regEl = document.querySelector('.home_date');
+                    if (regEl) {
+                        var parts = d.registrationDate.split('-');
+                        if (parts.length === 3) regEl.textContent = parts[2] + '.' + parts[1] + '.' + parts[0];
+                    }
+                }
+
+                // Apply photo
+                var photo = localStorage.getItem('gen_photo');
+                if (photo) {
+                    var userPhotoEl = document.querySelector('.user_photo');
+                    if (userPhotoEl) userPhotoEl.src = photo;
+                }
+
+            } catch(e) { console.warn('Generator data parse error', e); }
+        }
+        applyGeneratorData();
+    });
+    </script>
+</body></html>

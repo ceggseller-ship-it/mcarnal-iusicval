@@ -1,0 +1,54 @@
+/* Full-screen overlay — pierwszy paint + przejścia między stronami */
+/* Umiarkowany z-index — ekstremalne wartości potrafią psuć kompozycję na iOS WebKit. */
+#app-preloader.app-preloader {
+    position: fixed;
+    inset: 0;
+    z-index: 999998;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--background, #f5f6fb);
+    transition: opacity 0.38s ease, visibility 0.38s ease;
+}
+
+#app-preloader.app-preloader.app-preloader--done {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+#app-preloader.app-preloader.app-preloader--hidden {
+    display: none;
+}
+
+.app-preloader__spinner {
+    width: 36px;
+    height: 36px;
+    border: 3px solid rgba(0, 122, 255, 0.18);
+    border-top-color: #007aff;
+    border-radius: 50%;
+    animation: app-preloader-spin 0.65s linear infinite;
+}
+
+/* Zatrzymaj animację po ukryciu — mniej warstw GPU przy przejściach / historii. */
+#app-preloader.app-preloader.app-preloader--done .app-preloader__spinner,
+#app-preloader.app-preloader.app-preloader--hidden .app-preloader__spinner {
+    animation: none;
+}
+
+@keyframes app-preloader-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .app-preloader__spinner {
+        animation: none;
+        opacity: 0.85;
+    }
+
+    #app-preloader.app-preloader {
+        transition: opacity 0.2s ease, visibility 0.2s ease;
+    }
+}

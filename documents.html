@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>mObywatel</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <link rel="stylesheet" href="assets/app/preloader.css">
+    <link rel="stylesheet" href="assets/app/documents.css">
+    <link rel="stylesheet" href="assets/app/main.css">
+    <link rel="manifest" href="assets/manifest.json">
+    <meta name="theme-color" content="#f5f6fb">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="mObywatel">
+    <link rel="icon" type="image/x-icon" href="assets/app/images/logo.svg">
+    <link rel="apple-touch-icon" href="assets/app/images/logo.svg">
+    <link rel="shortcut icon" href="assets/app/images/logo.svg">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width, initial-scale=0.8, user-scalable=no">
+</head>
+<body>
+    <div id="app-preloader" class="app-preloader" aria-busy="true" aria-live="polite"><div class="app-preloader__spinner" aria-hidden="true"></div></div>
+    <div class="bottom_bar">
+        <div class="bottom_bar_grid">
+            <div class="bottom_element_grid" send="documents">
+                <div class="bottom_element_image documents documents_open"></div>
+                <p class="bottom_element_text open">Dokumenty</p>
+            </div>
+            <div class="bottom_element_grid" send="services">
+                <div class="bottom_element_image services"></div>
+                <p class="bottom_element_text">Usługi</p>
+            </div>
+            <div class="bottom_element_grid" send="qr">
+                <div class="bottom_element_image qr"></div>
+                <p class="bottom_element_text">Kod QR</p>
+            </div>
+            <div class="bottom_element_grid" send="more">
+                <div class="bottom_element_image more"></div>
+                <p class="bottom_element_text">Więcej</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="page_top">
+            <img class="main_page_logo" src="assets/app/images/logo_large.svg">
+            <img class="main_page_bell" src="assets/app/images/bell.svg">
+        </div>
+        <p class="main_title">Dokumenty</p>
+        <div class="button_grid">
+            <p class="main_button">Dostosuj</p>
+            <p class="main_button">Dodaj</p>
+        </div>
+        <div class="card_box" onclick="sendTo('card')">
+            <img class="card_background" src="assets/app/images/card_background.webp">
+            <p class="card_name">mDowód</p>
+            <div class="card_eagle_background">
+                <img class="card_eagle" src="assets/app/images/card_eagle.svg">
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/app/preload.js"></script>
+    <script src="assets/app/bar.js"></script>
+    <script src="js/profile-sync.js"></script>
+    <script src="assets/app/manifest.js"></script>
+    <script src="assets/cache.js"></script>
+    <script src="assets/app/flow.js"></script>
+    <script>
+        // Rejestracja Service Worker dla PWA
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/service-worker.js')
+                .then(reg => console.log('SW registered'))
+                .catch(err => console.log('SW registration failed'));
+        }
+    </script>
+</body>
+</html>
+
+

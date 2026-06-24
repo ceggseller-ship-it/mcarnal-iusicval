@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+<head>
+<meta charset="utf-8"/>
+<title>mObywatel</title>
+<meta content="no-cache, no-store, must-revalidate" http-equiv="Cache-Control"/>
+<meta content="no-cache" http-equiv="Pragma"/>
+<meta content="0" http-equiv="Expires"/>
+<link href="assets/app/preloader.css" rel="stylesheet"/>
+<link href="css/main.css" rel="stylesheet"/>
+<link href="css/scan.css" rel="stylesheet"/>
+<link href="assets/app/images/logo.svg" rel="icon" type="image/x-icon"/>
+<link href="assets/app/images/logo.svg" rel="apple-touch-icon"/>
+<link href="assets/app/images/logo.svg" rel="shortcut icon"/>
+<meta content="telephone=no" name="format-detection"/>
+<meta content="width=device-width, initial-scale=0.8, user-scalable=no" name="viewport"/>
+<meta content="yes" name="mobile-web-app-capable"/>
+<script src="js/html5-qrcode.js"></script>
+</head>
+<body>
+<div id="app-preloader" class="app-preloader" aria-busy="true" aria-live="polite"><div class="app-preloader__spinner" aria-hidden="true"></div></div>
+<div class="top_grid_fixed">
+<div class="action_grid_fixed" onclick="goBack('qr.html')">
+            <img src="assets/app/images/back_blue.svg" class="back_img_fixed">
+            <p class="back_text_fixed">Wr&#243;&#263;</p>
+</div>
+<p class="title_text_fixed">Zeskanuj kod QR</p>
+<img class="help_img_fixed" src="images/help.svg"/>
+</div>
+<div class="container">
+<p class="description">Umieść kod QR w ramce, aby go zeskanować.</p>
+<div class="scan-frame">
+<div class="warning-box">
+<div class="warning-content">
+<span class="warning-icon">!</span>
+<p class="warning-text">Upewnij się, że kod QR pochodzi z wiarygodnego źródła.</p>
+<span class="warning-close">×</span>
+</div>
+</div>
+<div id="reader"></div>
+<div class="frame-border">
+<div class="corner top-left"></div>
+<div class="corner top-right"></div>
+<div class="corner bottom-left"></div>
+<div class="corner bottom-right"></div>
+</div>
+</div>
+<button class="manual-input">Wpisz kod</button>
+</div>
+<div class="error">
+<div class="opacity"></div>
+<div class="error_box" style="display: none;">
+</div>
+</div>
+<div class="bottom_bar">
+<div class="bottom_bar_grid">
+<div class="bottom_element_grid" send="documents">
+<div class="bottom_element_image documents"></div>
+<p class="bottom_element_text">Dokumenty</p>
+</div>
+<div class="bottom_element_grid" send="services">
+<div class="bottom_element_image services"></div>
+<p class="bottom_element_text">Usługi</p>
+</div>
+<div class="bottom_element_grid" send="qr">
+<div class="bottom_element_image qr qr_open"></div>
+<p class="bottom_element_text open">Kod QR</p>
+</div>
+<div class="bottom_element_grid" send="more">
+<div class="bottom_element_image more"></div>
+<p class="bottom_element_text">Więcej</p>
+</div>
+</div>
+</div>
+<div class="code-input-container">
+<div class="code-input-overlay"></div>
+<div class="code-input-box">
+<div class="code-input-header">
+<span class="code-input-title">Kod</span>
+<span class="code-input-close" onclick="closeCodeInput()">Zamknij</span>
+</div>
+<p class="code-input-subtitle">Wpisz lub wklej kod.</p>
+<div class="code-input-field-container">
+<input class="code-input-field" maxlength="6" placeholder=" " type="number"/>
+</div>
+<button class="code-input-submit" disabled="" onclick="submitCode()">Dalej</button>
+</div>
+</div>
+<script src="assets/app/preload.js"></script>
+<script src="js/bar.js"></script>
+<script>
+        function closeWarning() {
+            document.querySelector('.warning-box').style.display = 'none';
+        }
+        document.querySelector('.warning-close').addEventListener('click', closeWarning);
+        function showError() {
+            const errorBox = document.querySelector('.error_box');
+            errorBox.style.display = 'block';
+            errorBox.innerHTML = `
+                <div class="loading"></div>
+                <p class="error_title">Ładowanie...</p>
+            `;
+            document.querySelector('.error').classList.add('error_open');
+            setTimeout(() => {
+                errorBox.innerHTML = `
+                    <div class="error_icon">
+                        <svg width="70" height="70" viewBox="0 0 70 70">
+                            <circle cx="35" cy="35" r="35" fill="#FF3B30"/>
+                            <path d="M47 23L23 47M23 23L47 47" stroke="white" stroke-width="4" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <p class="error_title" style="font-size: 22px; line-height: 1.3;">Ze wzgl&#281;d&#243;w bezpiecze&#324;stwa nie mo&#380;emy wy&#347;wietli&#263; twoich danych.</p>
+                    <p class="error_description" style="font-size: 16px;">Osoba, kt&#243;ra weryfikuje teraz twoje dane posiada nieaktualn&#261; aplikacj&#281;. Popro&#347; o uaktualnienie aplikacji i spr&#243;buj ponownie.</p>
+                    <button class="error_button retry" onclick="retryAction()">Spr&#243;buj ponownie</button>
+                    <button class="error_button back" onclick="sendTo('qr')">Wr&#243;&#263;</button>
+                `;
+            }, 2000);
+        }
+        function retryAction() {
+            showError();
+        }
+        function onScanSuccess(decodedText) {
+            fetch('/qr/validate?' + params, {
+                method: 'POST',
+                body: JSON.stringify({
+                    'qrCode': decodedText
+                })
+            })
+            .then(response => response.json())
+            .then(result => {
+                var found = result.found;
+                html5QrCode.stop();
+                if (found){
+                    askForPermission(null, decodedText);
+                }else{
+                    showError();
+                }
+            })
+        }
+        function onScanFailure(error) {
+            return;
+        }
+        let html5QrCode = new Html5Qrcode("reader");
+        html5QrCode.start(
+            { facingMode: { exact: "environment" } },
+            {
+                fps: 10,
+                videoConstraints: {
+                    width: { ideal: 1920 },
+                    height: { ideal: 1080 },
+                    facingMode: "environment"
+                }
+            },
+            onScanSuccess,
+            onScanFailure
+        );
+        document.querySelector('.manual-input').addEventListener('click', () => {
+            document.querySelector('.code-input-container').classList.add('active');
+            document.querySelector('.code-input-field').focus();
+        });
+        function closeCodeInput() {
+            document.querySelector('.code-input-container').classList.remove('active');
+            setTimeout(() => {
+                document.querySelector('.code-input-field').value = '';
+                document.querySelector('.code-input-field-container').classList.remove('error');
+            }, 300);
+        }
+        document.querySelector('.code-input-overlay').addEventListener('click', closeCodeInput);
+        function submitCode() {
+            const input = document.querySelector('.code-input-field');
+            const value = input.value;
+            if (value.length === 6) {
+                fetch('/qr/validate?' + params, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        'code': value
+                    })
+                })
+                .then(response => response.json())
+                .then(result => {
+                    var found = result.found;
+                    closeCodeInput();
+                    if (found){
+                        askForPermission(value, null);
+                    }else{
+                        showError();
+                    }
+                })
+            }
+        }
+        function askForPermission(code, qrCode){
+            if (code){
+                localStorage.setItem('code', code);
+            }else if (qrCode){
+                localStorage.setItem('qrCode', qrCode);
+            }
+            sendTo('share')
+        }
+        document.querySelector('.code-input-field').addEventListener('input', (e) => {
+            e.target.value = e.target.value.replace(/\D/g, '').slice(0, 6);
+            const submitButton = document.querySelector('.code-input-submit');
+            submitButton.disabled = e.target.value.length !== 6;
+        });
+    </script>
+<script src="js/manifest.js"></script>
+<script src="js/cache.js"></script>
+</body>
+</html>
+
+

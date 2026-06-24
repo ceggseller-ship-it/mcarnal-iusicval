@@ -1,0 +1,32 @@
+.server_offline_wrap {
+  margin-top: 100px;
+  text-align: center;
+  padding: 0 24px 140px;
+  max-width: 420px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.server_offline_icon {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 8px;
+  opacity: 0.55;
+  display: block;
+}
+
+.server_offline_title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #1f2227;
+  margin: 16px 0 10px;
+  line-height: 1.35;
+}
+
+.server_offline_sub {
+  font-size: 16px;
+  font-weight: 400;
+  color: #6b7280;
+  line-height: 1.45;
+  margin: 0;
+}

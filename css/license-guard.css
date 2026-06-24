@@ -1,0 +1,209 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+:root {
+  --premium-bg: #f5f6fb;
+  --premium-bg-shop: #f0f4fc;
+  --premium-card: #ffffff;
+  --premium-text: #1a1f2e;
+  --premium-muted: #64748b;
+  --premium-accent: #1657e0;
+  --premium-accent-hover: #1248bd;
+  --premium-warn-bg: #fff7ed;
+  --premium-warn-text: #c2410c;
+  --premium-warn-btn: #f59e0b;
+  --premium-danger-text: #b91c1c;
+  --premium-shadow: 0 4px 24px rgba(15, 23, 42, 0.1);
+  --premium-radius: 16px;
+  --premium-font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+html.premium-license-pending body {
+  visibility: hidden;
+}
+
+html.premium-license-expired,
+html.premium-license-expired body {
+  overflow: hidden;
+  height: 100%;
+}
+
+html.premium-license-expired body > *:not(#premium-license-lock) {
+  display: none !important;
+}
+
+.premium-access-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483647;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(245, 246, 251, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  font-family: var(--premium-font);
+}
+
+.premium-access-overlay::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(240, 244, 252, 0.55), rgba(245, 246, 251, 0.2));
+  pointer-events: none;
+}
+
+.premium-access-card {
+  position: relative;
+  width: min(420px, 100%);
+  background: var(--premium-card);
+  border-radius: var(--premium-radius);
+  padding: 28px 24px 24px;
+  box-shadow: var(--premium-shadow);
+  border: 1px solid rgba(228, 230, 236, 0.9);
+  text-align: center;
+}
+
+.premium-access-logo {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 14px;
+  display: block;
+}
+
+.premium-access-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.premium-access-overlay--expired .premium-access-badge,
+.premium-access-overlay--no_access .premium-access-badge {
+  background: #fef2f2;
+  color: var(--premium-danger-text);
+}
+
+.premium-access-overlay--pending .premium-access-badge {
+  background: var(--premium-warn-bg);
+  color: var(--premium-warn-text);
+}
+
+.premium-access-overlay--rejected .premium-access-badge {
+  background: #fef2f2;
+  color: var(--premium-danger-text);
+}
+
+.premium-access-card h1 {
+  margin: 0 0 10px;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--premium-text);
+  letter-spacing: -0.02em;
+}
+
+.premium-access-card p {
+  margin: 0 0 22px;
+  color: var(--premium-muted);
+  line-height: 1.55;
+  font-size: 0.94rem;
+}
+
+.premium-access-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.premium-access-btn {
+  display: inline-block;
+  padding: 13px 20px;
+  border-radius: 12px;
+  background: var(--premium-accent);
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  border: 0;
+  cursor: pointer;
+}
+
+.premium-access-btn:hover {
+  background: var(--premium-accent-hover);
+}
+
+.premium-access-link {
+  display: inline-block;
+  color: var(--premium-muted);
+  text-decoration: none;
+  font-size: 0.88rem;
+  font-weight: 500;
+}
+
+.premium-access-link:hover {
+  color: var(--premium-accent);
+}
+
+#premium-license-warn {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483646;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(26, 31, 46, 0.35);
+  font-family: var(--premium-font);
+}
+
+.premium-license-warn-card {
+  width: min(440px, 100%);
+  background: var(--premium-card);
+  border-radius: var(--premium-radius);
+  padding: 24px;
+  box-shadow: var(--premium-shadow);
+  border: 1px solid rgba(228, 230, 236, 0.9);
+}
+
+.premium-license-warn-card .premium-access-badge {
+  background: var(--premium-warn-bg);
+  color: var(--premium-warn-text);
+  margin-bottom: 10px;
+}
+
+.premium-license-warn-card h2 {
+  margin: 0 0 10px;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--premium-text);
+}
+
+.premium-license-warn-card p {
+  margin: 0 0 18px;
+  color: var(--premium-muted);
+  line-height: 1.55;
+  font-size: 0.94rem;
+}
+
+.premium-license-warn-card button {
+  width: 100%;
+  border: 0;
+  border-radius: 12px;
+  padding: 12px 16px;
+  background: var(--premium-accent);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.95rem;
+}
+
+.premium-license-warn-card button:hover {
+  background: var(--premium-accent-hover);
+}
